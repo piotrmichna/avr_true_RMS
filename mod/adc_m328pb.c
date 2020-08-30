@@ -43,6 +43,10 @@ uint16_t adc_get(uint8_t modx){
 	sleep_disable();                   //Zablokuj mo¿liwoœæ wejœcia w tryb sleep
 	return ADC;
 }
+void adc_stop(void){
+	ADMUX=0;
+	ADCSRA=0;
+}
 #else
 void adc_get(uint8_t modx){
 	ADMUX=ADC_REFS | modx;

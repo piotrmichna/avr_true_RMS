@@ -25,6 +25,7 @@
 
 #if ADC_SLEEP_MODE == 1
 	uint16_t adc_get(uint8_t modx);
+	void adc_stop(void);
 #else
 	volatile uint16_t adc_res;
 	volatile uint8_t adc_flag;
