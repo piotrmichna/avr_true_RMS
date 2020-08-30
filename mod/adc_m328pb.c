@@ -17,3 +17,11 @@
 	extern volatile uint16_t adc_res;
 	extern volatile uint8_t adc_flag;
 #endif
+
+ISR(ADC_vect){
+	#if ADC_SLEEP_MODE == 0
+		adc_res=ADC;
+		adc_flag=1;
+		ADCSRA=0;
+	#endif
+}
