@@ -19,9 +19,41 @@
 #endif
 
 ISR(ADC_vect){
-	#if ADC_SLEEP_MODE == 0
-		adc_res=ADC;
-		adc_flag=1;
-		ADCSRA=0;
-	#endif
+#if ADC_SLEEP_MODE == 0
+adc_res=ADC;
+adc_flag=1;
+ADCSRA=0;
+#endif
 }
+
+#if ADC_SLEEP_MODE == 1
+uint16_t adc_get(uint8_t modx){
+	ADMUX=ADC_REFS | modx;
+	if(!ADCSRA){			
+		ADCSRA=(1<<ADEN) | (1<<ADIE);	//wlaczenie przetwornika i zezwolenie naprzerwanie
+		ADCSRA |= ADC_PRESCALER;		//ustawienie preskalera			
+	}
+	if(modx==1) DIDR0=(1<<ADC1D);
+	if(modx==0) DIDR0=(1<<ADC0D);
+
+	ADCSRA |= (1<<ADATE);
+	set_sleep_mode(SLEEP_MODE_ADC);    //Tryb noise canceller
+	ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {sleep_enable();};     //Odblokuj mo¿liwoœæ wejœcia w tryb sleep
+	sleep_cpu();                       //WejdŸ w tryb uœpienia
+	sleep_disable();                   //Zablokuj mo¿liwoœæ wejœcia w tryb sleep
+	return ADC;
+}
+#else
+void adc_get(uint8_t modx){
+	ADMUX=ADC_REFS | modx;
+	if(!ADCSRA){
+		ADCSRA=(1<<ADEN) | (1<<ADIE);	//wlaczenie przetwornika i zezwolenie naprzerwanie
+		ADCSRA |= ADC_PRESCALER;		//ustawienie preskalera
+	}
+	if(modx==1) DIDR0=(1<<ADC1D);
+	if(modx==0) DIDR0=(1<<ADC0D);
+		
+	ADCSRA |= (1<<ADSC);
+	adc_flag=0;
+}
+#endif
