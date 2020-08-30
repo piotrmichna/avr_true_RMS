@@ -13,7 +13,7 @@
 #define ADC_SLEEP_MODE 1
 //#define ADC_REFS 0		// AREF, zewnêtrzne napiecie odniesienia
 //#define ADC_REFS 64		// AVcc
-#define ADC_REFS 192	// Internal 1.1V
+#define ADC_REFS 0x11000000	// Internal 1.1V
 
 //#define ADC_PRESCALER 1		//2
 //#define ADC_PRESCALER 2		//4
