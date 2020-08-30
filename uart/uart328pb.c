@@ -20,14 +20,14 @@ volatile char UART_TxBuf[UART_TX_BUF_SIZE];		// definicja bufora nadawczego
 volatile uint8_t UART_TxHead;					// indeks poczatkowy
 volatile uint8_t UART_TxTail;					// indeks koncowy
 
-#if RS485 == 1
-inline void rs485_odbieranie(void){
+#if RS485==1
+void rs485_odbieranie(void){
 	RS_TXEN_PORT &= ~(1<<RS_TXEN_PIN);
 	#ifdef RS_RXEN_PIN
 	RS_RXEN_PORT &= ~(1<<RS_RXEN_PIN);
 	#endif
 }
-inline void rs485_nadawanie(void){
+void rs485_nadawanie(void){
 	RS_TXEN_PORT |= (1<<RS_TXEN_PIN);
 	#ifdef RS_RXEN_PIN
 	RS_RXEN_PORT |= (1<<RS_RXEN_PIN);
@@ -125,7 +125,7 @@ ISR( USART0_UDRE_vect)  {
 		rs485_nadawanie();	// ustaw tryb nadawania
 		#endif
 		UDR0 = UART_TxBuf[UART_TxTail];						// zapis bajta do buforu sprzetowego
-		} else {
+	} else {
 		UCSR0B &= ~(1<<UDRIE0);								// zerowanie flagi pustego sprzetowego bufora nadawczego
 	}
 }

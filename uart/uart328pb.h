@@ -16,7 +16,7 @@
 #define __UBRR ((F_CPU+UART_BAUD*8UL) / (16UL*UART_BAUD)-1) // UBRR dla U2X=0
 
 
-#if RS485 == 1
+#if RS485==1
 #define RS_TXEN_PIN PD2
 #define RS_TXEN_PORT PORTD
 #define RS_TXEN_DDR DDRD
