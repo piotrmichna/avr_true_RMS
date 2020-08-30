@@ -23,6 +23,13 @@
 //#define ADC_PRESCALER 6		//64
 #define ADC_PRESCALER 7		//128
 
-
+#if ADC_SLEEP_MODE == 1
+	uint16_t adc_get(uint8_t modx);
+#else
+	volatile uint16_t adc_res;
+	volatile uint8_t adc_flag;
+	
+	void adc_get(uint8_t modx);
+#endif
 
 #endif /* ADC_M328PB_H_ */
