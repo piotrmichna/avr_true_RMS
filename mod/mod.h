@@ -12,6 +12,6 @@
 
 
 void mod_init(void);
-
+int8_t mod_pwr_set(uint8_t st);
 
 #endif /* MOD_H_ */

@@ -15,10 +15,10 @@
 #define F_BRAK_MOD -1
 #define F_BRAK_ADC -2
 #define F_BRAK_NAPIECIA -3
-#define F_BRAK_DEF -4
-#define F_BLAD_PROGRAMU -5
-#define F_MOD_GO_ON -6
-#define F_EMPTY_COLL -7
+#define F_BLAD_PROGRAMU -4
+#define F_MOD_GO_ON -5
+#define F_EMPTY_COLL -6
+#define F_BRAK_DEF -7
 
 
 
