@@ -73,17 +73,20 @@
 
 
 typedef struct{
-	void (*pwr)(uint8_t);
-	uint8_t init_f:1;
-	uint8_t pwr_f:1;
-	uint8_t det_on_f:1;
-	uint8_t mod_num:5;
-	uint8_t mod_f;
-	uint8_t pwr_delay;
-	uint8_t pwr_cnt;
+	void (*pwr)(uint8_t);	// wskaznik na funkcje setrujaca zasilaniem
+	void (*det)(uint8_t);	// funkcja sterujaca zezwoleniem na przerwanie
+	uint8_t pwr_delay;	// zwloka dostepu do zasilania
+	uint8_t pwr_cnt;	// odliczanie zwloki dostepu do zasilania
+	uint8_t mod_f:4;		// bity stanow modulow
+	uint8_t mod_num:4;	// dostepnych modulow
+	uint8_t init_f:1;	// stan inicjacji biblioteki
+	uint8_t pwr_on_f:1;	// stan wlaczenia zasilania
+	uint8_t det_on_f:1;	// stan detekcji napiecia 240VAC	
 }TMOD_CNF;
 
 typedef struct{
+	uint8_t kanal:7;
+	uint8_t adc_f:1;
 	uint16_t adc_buf[ADC_SAMPLE_NUM];
 	uint8_t buf_id:4;
 	uint8_t buf_num:4;
@@ -98,11 +101,10 @@ typedef struct{
 	void (*mtk)(uint8_t);
 	void (*ena)(uint8_t);
 	uint8_t (*sw)(void);
-	uint8_t adc_kanal :4;
 	uint8_t mpk_f :1;
 	uint8_t mtk_f :1;
 	uint8_t sw_f :1;
-	uint8_t ena_f :1;
+	uint8_t ena_f :5;
 	TMOD_ADC madc;
 }TMOD;
 
