@@ -14,6 +14,38 @@
 
 extern volatile uint8_t det_int_f;
 
+extern TMOD mod[MOD_NUM];
+extern TMOD_CNF mcnf;
+
+#ifdef PWR_OFF
+void pwr_set(uint8_t st);
+#endif
+
+#ifdef MPK0_OFF
+void mpk0_set(uint8_t st);
+#endif
+#ifdef MTK0_OFF
+void mtk0_set(uint8_t st);
+#endif
+#ifdef SW0_OFF
+uint8_t sw0_get(void);
+#endif
+#ifdef ENA0_OFF
+void ena0_set(uint8_t st);
+#endif
+#ifdef MPK1_OFF
+void mpk1_set(uint8_t st);
+#endif
+#ifdef MTK1_OFF
+void mtk1_set(uint8_t st);
+#endif
+#ifdef SW1_OFF
+uint8_t sw1_get(void);
+#endif
+#ifdef ENA1_OFF
+void ena1_set(uint8_t st);
+#endif
+
 ISR(INT1_vect){
 	det_int_f=1;
 }
@@ -47,4 +79,81 @@ void mod_io_init(void){
 	if(RMS1_OFF==1) PORT( RMS1_PORT ) |= (1<<RMS1_PIN); else PORT( RMS1_PORT ) &= ~(1<<RMS1_PIN);
 	DDR( RMS1_PORT ) &= ~(1<<RMS1_PIN);
 }
+#ifdef PWR_OFF
+void pwr_set(uint8_t st){
+	mcnf.pwr_f=0;
+	if (PWR_OFF==1){
+		if(st) st=0; else st=1;
+	}
+	if(st) PORT( PWR_PORT ) |= (1<<PWR_PIN); else  PORT( PWR_PORT ) &= ~(1<<PWR_PIN);
+}
+#endif
 
+#ifdef MPK0_OFF
+void mpk0_set(uint8_t st){
+	if (MPK0_OFF==1){
+		if(st) st=0; else st=1;
+	}
+	if(st) PORT( MPK0_PORT ) |= (1<<MPK0_PIN); else  PORT( MPK0_PORT ) &= ~(1<<MPK0_PIN);
+}
+#endif
+#ifdef MTK0_OFF
+void mtk0_set(uint8_t st){
+	if (MTK0_OFF==1){
+		if(st) st=0; else st=1;
+	}
+	if(st) PORT( MTK0_PORT ) |= (1<<MTK0_PIN); else  PORT( MTK0_PORT ) &= ~(1<<MTK0_PIN);
+}
+#endif
+#ifdef SW0_OFF
+uint8_t sw0_get(void){
+	uint8_t st;
+	st=( PIN(SW0_PORT) & (1<<SW0_PIN) );
+	if (SW0_OFF==1){
+		if(st) st=0; else st=1;
+	}
+	return st;
+}
+#endif
+#ifdef ENA0_OFF
+void ena0_set(uint8_t st){
+	if (ENA0_OFF==1){
+		if(st) st=0; else st=1;
+	}
+	if(st) PORT( ENA0_PORT ) |= (1<<ENA0_PIN); else  PORT( ENA0_PORT ) &= ~(1<<ENA0_PIN);
+}
+#endif
+#ifdef MPK1_OFF
+void mpk1_set(uint8_t st){
+	if (MPK1_OFF==1){
+		if(st) st=0; else st=1;
+	}
+	if(st) PORT( MPK1_PORT ) |= (1<<MPK1_PIN); else  PORT( MPK1_PORT ) &= ~(1<<MPK1_PIN);
+}
+#endif
+#ifdef MTK1_OFF
+void mtk1_set(uint8_t st){
+	if (MTK1_OFF==1){
+		if(st) st=0; else st=1;
+	}
+	if(st) PORT( MTK1_PORT ) |= (1<<MTK1_PIN); else  PORT( MTK1_PORT ) &= ~(1<<MTK1_PIN);
+}
+#endif
+#ifdef SW1_OFF
+uint8_t sw1_get(void){
+	uint8_t st;
+	st=( PIN(SW1_PORT) & (1<<SW1_PIN) );
+	if (SW1_OFF==1){
+		if(st) st=0; else st=1;
+	}
+	return st;
+}
+#endif
+#ifdef ENA1_OFF
+void ena1_set(uint8_t st){
+	if (ENA1_OFF==1){
+		if(st) st=0; else st=1;
+	}
+	if(st) PORT( ENA1_PORT ) |= (1<<ENA1_PIN); else  PORT( ENA1_PORT ) &= ~(1<<ENA1_PIN);
+}
+#endif
