@@ -74,8 +74,9 @@
 
 
 typedef struct{
-	uint8_t mod_f:4;		// bity stanow modulow
+	uint8_t mod_f:4;	// bity stanow modulow
 	uint8_t mod_num:4;	// dostepnych modulow
+	uint8_t mod_instal:4;
 	uint8_t init_f:1;	// stan inicjacji biblioteki
 	uint8_t pwr_on_f:1;	// stan wlaczenia zasilania
 	uint8_t det_on_f:1;	// stan detekcji napiecia 240VAC
@@ -118,5 +119,6 @@ TMOD_CNF mcnf;
 volatile uint8_t det_int_f;
 
 void mod_io_init(void);
+void mod_check(void);
 
 #endif /* MOD_IO_H_ */

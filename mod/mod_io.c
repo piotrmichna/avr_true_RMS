@@ -17,7 +17,7 @@ extern volatile uint8_t det_int_f;
 extern TMOD mod[MOD_NUM];
 extern TMOD_CNF mcnf;
 
-void mod_check(void);
+
 void det_set(uint8_t st);
 #ifdef PWR_OFF
 void pwr_set(uint8_t st);
@@ -149,7 +149,12 @@ void mod_check(void){
 	for(uint8_t n=0; n<MOD_NUM; n++){
 		if(mod[n].sw){
 			st=mod[n].sw();
-			if(st) mcnf.mod_num++;
+			if(st){
+				mcnf.mod_instal |= (1<<n);
+				mcnf.mod_num++;
+			}else{
+				mcnf.mod_instal &= ~(1<<n);
+			}
 		}
 	}
 }
