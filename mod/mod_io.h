@@ -73,6 +73,7 @@
 
 
 typedef struct{
+	void (*pwr)(uint8_t);
 	uint8_t init_f:1;
 	uint8_t pwr_f:1;
 	uint8_t det_on_f:1;
@@ -106,7 +107,7 @@ typedef struct{
 }TMOD;
 
 TMOD mod[MOD_NUM];
-TMOD_CNF mod_cnf;
+TMOD_CNF mcnf;
 volatile uint8_t det_int_f;
 
 void mod_io_init(void);
