@@ -18,6 +18,7 @@
 
 void main_event(void);
 uint16_t val_adc[2];
+uint8_t id;
 
 int main(void){
     //timer1 mode CTC
@@ -34,7 +35,7 @@ int main(void){
 	uart_puts("START\n\r");
 	DDRD |= (1<<PD5);
 	PORTD &= ~(1<<PD5);
-	uint8_t x=0,n=0;
+	uint8_t x=0;
 	
     while (1){
 		if(TIFR1 & (1<<OCF1A)){
@@ -42,11 +43,17 @@ int main(void){
 			#if SPEED_ENABLE==1
 			spt_start();
 			
-			if(x<3) n=0; else n=1;
-			if(x==5) x=0; else x++;
+			if(x==0){
+				id=0;
+				adc_stop();
+			}
+			if(x==9){
+				id=1;
+				adc_stop();
+			}
+			if(x==20) x=0; else x++;
 						
-			val_adc[n]=adc_get(n);
-			adc_stop();
+			val_adc[id]=adc_get(id);
 			spt_stop();
 			#endif
 			main_event();
@@ -73,6 +80,10 @@ void main_event(void){
 		uart_puts("\n\rspt_tim=");
 		uart_putint(spt_get_tim(),10);		
 #endif
+		uart_puts("\n\rid=");
+		uart_putint(id,10);
+		//uart_puts(" sample=");
+		//uart_putint(adc_get_sample_num(),10);
 		uart_puts("\n\rADC0=");
 		uart_putint(val_adc[0],10);
 		uart_puts("\n\rADC1=");

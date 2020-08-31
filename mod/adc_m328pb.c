@@ -13,17 +13,12 @@
 #if ADC_SLEEP_MODE==1
 	#include <util/atomic.h>
 	#include <avr/sleep.h>
+	
+#else
+extern volatile uint16_t adc_res;
+extern volatile uint8_t adc_flag;
 #endif
 
-	extern volatile uint16_t adc_res;
-	extern volatile uint8_t adc_flag;
-
-typedef struct{
-	uint16_t val_adc;
-	uint16_t i;
-	uint16_t imax;
-	uint16_t imin;
-}TADC;
 
 ISR(ADC_vect){
 #if ADC_SLEEP_MODE==0
@@ -38,7 +33,7 @@ uint16_t adc_get(uint8_t modx){
 	ADMUX=ADC_REFS | modx;
 	if(modx==1) DIDR0=(1<<ADC1D);
 	if(modx==0) DIDR0=(1<<ADC0D);
-	if(!ADCSRA){			
+	if(!ADCSRA){
 		ADCSRA=(1<<ADEN) | (1<<ADIE);	//wlaczenie przetwornika i zezwolenie naprzerwanie
 		ADCSRA |= ADC_PRESCALER;		//ustawienie preskalera			
 	}	
@@ -56,7 +51,7 @@ void adc_stop(void){
 	ADCSRA=0;
 }
 #else
-void adc_get(uint8_t modx){
+void adc_start(uint8_t modx){
 	ADMUX=ADC_REFS | modx;
 	if(!ADCSRA){
 		ADCSRA=(1<<ADEN) | (1<<ADIE);	//wlaczenie przetwornika i zezwolenie naprzerwanie
@@ -67,5 +62,8 @@ void adc_get(uint8_t modx){
 		
 	ADCSRA |= (1<<ADSC);
 	adc_flag=0;
+}
+uint16_t adc_get(void){
+	if(adc_flag) return adc_res; else return 0;
 }
 #endif
