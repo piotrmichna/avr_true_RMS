@@ -17,6 +17,13 @@ void mod_init(void){
 	mod_io_init();
 }
 
+uint8_t get_pwr_stan(void){
+	return mcnf.pwr_on_f;
+}
+uint8_t get_det_stan(void){
+	return mcnf.det_on_f;
+}
+
 int8_t mod_pwr_set(uint8_t st){
 	if(st!=mcnf.pwr_on_f){
 		if(st){
