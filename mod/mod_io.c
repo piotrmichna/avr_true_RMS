@@ -134,7 +134,9 @@ void mod_io_init(void){
 #endif
 	mod_check();
 	mcnf.pwr_delay=PWR_DELAY;
+	mcnf.adc_delay=ADC_ON_DELAY;
 	mcnf.init_f=1;
+	mcnf.mod_f=0;
 	#ifdef PWR_OFF
 	mcnf.pwr=pwr_set;
 	mcnf.det=det_set;
@@ -204,7 +206,6 @@ void pwr_set(uint8_t st){
 	#endif
 	#ifdef ENA0_OFF
 	void ena0_set(uint8_t st){
-		mod[0].ena_f=st;
 		if (ENA0_OFF==1){
 			if(st) st=0; else st=1;
 		}
@@ -244,7 +245,6 @@ void pwr_set(uint8_t st){
 	#endif
 	#ifdef ENA1_OFF
 	void ena1_set(uint8_t st){
-		mod[1].ena_f=st;
 		if (ENA1_OFF==1){
 			if(st) st=0; else st=1;
 		}

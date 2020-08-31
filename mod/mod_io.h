@@ -13,6 +13,7 @@
 #define MOD_NUM 2					// ilosc definiowanych modolow
 #define NAZWA_NUM 5					// dlugosc nazwy modulu +1
 #define ADC_SAMPLE_NUM 5			// ilosc pomiarow ADC do usrednienia max 15
+#define ADC_ON_DELAY 10				// czas zwloki pomiaru po wlaczeniu przetwornika
 
 #define DET_INT_OFF 1				// detekcja przejscia prze zero fazy 230VAC
 #define DET_INT_PIN PD3
@@ -73,15 +74,19 @@
 
 
 typedef struct{
-	void (*pwr)(uint8_t);	// wskaznik na funkcje setrujaca zasilaniem
-	void (*det)(uint8_t);	// funkcja sterujaca zezwoleniem na przerwanie
-	uint8_t pwr_delay;	// zwloka dostepu do zasilania
-	uint8_t pwr_cnt;	// odliczanie zwloki dostepu do zasilania
 	uint8_t mod_f:4;		// bity stanow modulow
 	uint8_t mod_num:4;	// dostepnych modulow
 	uint8_t init_f:1;	// stan inicjacji biblioteki
 	uint8_t pwr_on_f:1;	// stan wlaczenia zasilania
-	uint8_t det_on_f:1;	// stan detekcji napiecia 240VAC	
+	uint8_t det_on_f:1;	// stan detekcji napiecia 240VAC
+	
+	void (*pwr)(uint8_t);	// wskaznik na funkcje setrujaca zasilaniem
+	void (*det)(uint8_t);	// funkcja sterujaca zezwoleniem na przerwanie
+	uint8_t pwr_delay;	// zwloka dostepu do zasilania
+	uint8_t pwr_cnt;	// odliczanie zwloki dostepu do zasilania
+	uint8_t adc_delay;
+	uint8_t adc_cnt;
+	
 }TMOD_CNF;
 
 typedef struct{
