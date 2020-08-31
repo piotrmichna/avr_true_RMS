@@ -69,6 +69,42 @@
 #define DET1_PORT C
 #define RMS1_PORT C
 
+
+typedef struct{
+	uint8_t init_f:1;
+	uint8_t pwr_f:1;
+	uint8_t det_on_f:1;
+	uint8_t mod_num:5;
+	uint8_t mod_f;
+	uint8_t pwr_delay;
+	uint8_t pwr_cnt;
+}TMOD_CNF;
+
+typedef struct{
+	uint16_t adc_buf[ADC_SAMPLE_NUM];
+	uint8_t buf_id:4;
+	uint8_t buf_num:4;
+	uint16_t i;
+	uint16_t imax;
+	uint16_t imin;
+}TMOD_ADC;
+
+typedef struct{
+	char nazwa[NAZWA_NUM];
+	void (*mpk)(uint8_t);
+	void (*mtk)(uint8_t);
+	void (*ena)(uint8_t);
+	uint8_t (*sw)(void);
+	uint8_t adc_kanal :4;
+	uint8_t mpk_f :1;
+	uint8_t mtk_f :1;
+	uint8_t sw_f :1;
+	uint8_t ena_f :1;
+	TMOD_ADC madc;
+}TMOD;
+
+TMOD mod[MOD_NUM];
+TMOD_CNF mod_cnf;
 volatile uint8_t det_int_f;
 
 void mod_io_init(void);
