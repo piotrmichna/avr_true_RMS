@@ -13,5 +13,7 @@
 
 void mod_init(void);
 int8_t mod_pwr_set(uint8_t st);
+uint8_t get_pwr_stan(void);
+uint8_t get_det_stan(void);
 
 #endif /* MOD_H_ */
