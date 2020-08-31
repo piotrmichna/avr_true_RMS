@@ -134,6 +134,12 @@
     <Compile Include="mod\adc_m328pb.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="mod\mod.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="mod\mod.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="mod\mod_io.c">
       <SubType>compile</SubType>
     </Compile>

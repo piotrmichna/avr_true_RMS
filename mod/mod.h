@@ -11,7 +11,7 @@
 #define MOD_H_
 
 
-
+void mod_init(void);
 
 
 #endif /* MOD_H_ */

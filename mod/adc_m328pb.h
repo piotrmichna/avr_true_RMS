@@ -11,7 +11,6 @@
 #define ADC_M328PB_H_
 
 #define ADC_SLEEP_MODE 1
-#define ADC_SAMPLE_NUM 5	// ilosc probek do usrednienia maksymalnie 15
 //#define ADC_REFS 0		// AREF, zewnêtrzne napiecie odniesienia
 //#define ADC_REFS 64		// AVcc
 #define ADC_REFS 192	// Internal 1.1V
