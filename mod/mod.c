@@ -24,6 +24,45 @@ uint8_t get_det_stan(void){
 	return mcnf.det_on_f;
 }
 
+int8_t mod_set_on(uint8_t xmod){
+	if( !(mcnf.mod_f & (1<<xmod)) ){
+		if(!mcnf.pwr_on_f) return mod_pwr_set(1);
+
+		if(mod[xmod].mtk){
+			if(!mod[xmod].mtk_f){
+				mod[xmod].mtk(1);
+				mcnf.mod_f |= (1<<xmod);
+				return F_OK;
+			}
+			}else{
+			return F_BRAK_DEF;
+		}
+		}else{
+		return F_EMPTY_COLL;
+	}
+}
+
+int8_t mod_set_off(uint8_t xmod){
+	if( mcnf.mod_f & (1<<xmod) ){
+		if(mod[xmod].mtk){
+			if(mod[xmod].mtk_f){
+				mod[xmod].mtk(0);
+				mcnf.mod_f &= ~(1<<xmod);
+				return F_ON_PROGRES;
+			}
+			}else{
+			return F_BRAK_DEF;
+		}
+		
+		if(mcnf.pwr_on_f){
+			if(mcnf.mod_f==0) return mod_pwr_set(0); else return F_OK;
+			}else{
+			return F_OK;
+		}
+		}else{
+		return F_EMPTY_COLL;
+	}
+}
 int8_t mod_pwr_set(uint8_t st){
 	if(st!=mcnf.pwr_on_f){
 		if(st){

@@ -13,6 +13,8 @@
 
 void mod_init(void);
 int8_t mod_pwr_set(uint8_t st);
+int8_t mod_set_on(uint8_t xmod);
+int8_t mod_set_off(uint8_t xmod);
 uint8_t get_pwr_stan(void);
 uint8_t get_det_stan(void);
 
