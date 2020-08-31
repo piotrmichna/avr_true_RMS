@@ -18,5 +18,6 @@ int8_t mod_set_off(uint8_t xmod);
 uint8_t get_pwr_stan(void);
 uint8_t get_det_stan(void);
 uint8_t get_mod_f(void);
+uint8_t get_mod_num(void);
 
 #endif /* MOD_H_ */

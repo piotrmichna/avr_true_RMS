@@ -27,6 +27,10 @@ uint8_t get_det_stan(void){
 uint8_t get_mod_f(void){
 	return mcnf.mod_f;
 }
+uint8_t get_mod_num(void){
+	mod_check();
+	return mcnf.mod_instal;
+}
 
 int8_t mod_set_on(uint8_t xmod){
 	if( !(mcnf.mod_f & (1<<xmod)) ){
