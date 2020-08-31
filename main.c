@@ -17,7 +17,7 @@
 #include "mod/mod.h"
 
 void main_event(void);
-uint8_t stan=1, xx=10,cnt;
+uint8_t stan=1, xx=10,cnt,id=0;
 int8_t err;
 
 int main(void){
@@ -44,9 +44,14 @@ int main(void){
 			if(!x){
 				x=10;
 				if(!cnt){
-					err=mod_pwr_set(stan);
+					if(stan) err=mod_set_on(id); else err=mod_set_off(id);
 					if(!err){
-						if(stan) stan=0; else stan=1;
+						if(stan){
+							stan=0;
+						}else{
+							stan=1;
+							if(id) id=0; else id=1;
+						}
 						cnt=40;
 					}else{
 						cnt=0;
@@ -84,7 +89,7 @@ void main_event(void){
 		uart_puts("\n\rstan=");
 		uart_putint(stan,10);
 		uart_puts("\n\rpwr_on_f=");
-		uart_putint(get_pwr_stan(),10);
+		uart_putint(get_mod_f(),2);
 		uart_puts("\n\rdet_on_f=");
 		uart_putint(get_det_stan(),10);		
 		uart_puts("\n\rerr=");
