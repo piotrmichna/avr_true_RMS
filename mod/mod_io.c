@@ -11,6 +11,13 @@
 
 #include "../macr.h"
 
+
+extern volatile uint8_t det_int_f;
+
+ISR(INT1_vect){
+	det_int_f=1;
+}
+
 void mod_io_init(void){
 	
 	if(DET_INT_OFF==1) PORT( DET_INT_PORT ) |= (1<<DET_INT_PIN); else PORT( DET_INT_PORT ) |= (1<<DET_INT_PIN);

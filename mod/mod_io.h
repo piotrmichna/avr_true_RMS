@@ -69,5 +69,8 @@
 #define DET1_PORT C
 #define RMS1_PORT C
 
+volatile uint8_t det_int_f;
+
+void mod_io_init(void);
 
 #endif /* MOD_IO_H_ */
