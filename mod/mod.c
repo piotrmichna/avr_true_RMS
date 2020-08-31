@@ -42,6 +42,21 @@ int16_t get_mod_adci(uint8_t xmod){
 		return -1;
 	}
 }
+int16_t get_mod_adcimin(uint8_t xmod){
+	if(mod[xmod].madc.adc_f){
+		return mod[xmod].madc.imin;
+	}else{
+		return -1;
+	}
+}
+
+int16_t get_mod_adcimax(uint8_t xmod){
+	if(mod[xmod].madc.adc_f){
+		return mod[xmod].madc.imax;
+	}else{
+		return -1;
+	}
+}
 
 void mod_event(void){
 	static uint8_t id, cnt=ADC_SAMPLE_NUM*2;
