@@ -19,6 +19,7 @@
 void main_event(void);
 uint8_t stan=1, xx=10,cnt,id=0;
 int8_t err;
+uint8_t mod_n;
 
 int main(void){
     //timer1 mode CTC
@@ -44,13 +45,25 @@ int main(void){
 			if(!x){
 				x=10;
 				if(!cnt){
-					if(stan) err=mod_set_on(id); else err=mod_set_off(id);
+					
+					if(stan){
+						err=mod_set_on(id);
+					}else{
+						err=mod_set_off(id);
+					}
 					if(!err){
 						if(stan){
 							stan=0;
 						}else{
 							stan=1;
-							if(id) id=0; else id=1;
+							mod_n=get_mod_num();
+							if(id){
+								id=0;
+								if( !(mod_n & (1<<id)) ) id=1;
+							}else{
+								id=1;
+								if( !(mod_n & (1<<id)) ) id=0;
+							}
 						}
 						cnt=40;
 					}else{
