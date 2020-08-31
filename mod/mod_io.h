@@ -10,15 +10,17 @@
 #ifndef MOD_IO_H_
 #define MOD_IO_H_
 
+#define MOD_NUM 2					// ilosc definiowanych modolow
 #define NAZWA_NUM 5					// dlugosc nazwy modulu +1
+#define ADC_SAMPLE_NUM 5			// ilosc pomiarow ADC do usrednienia max 15
 
 #define DET_INT_OFF 1				// detekcja przejscia prze zero fazy 230VAC
 #define DET_INT_PIN PD3
 #define DET_INT_PORT D
 
 #define PWR_OFF 0					// sterowanie zasilaniem modulow
-#define PWR_DELAY 10
-#define PWR_CNT_DELAY 0x00001111	// maksymalny licznik zwloki dostepu do zasilacza
+#define PWR_DELAY 10				// czas zwloki po wlaczeniu zasilania max 255
+#define PWR_CNT_DELAY 0x11111111	// maksymalny licznik zwloki dostepu do zasilacza
 #define PWR_PIN PC4
 #define PWR_PORT C
 
