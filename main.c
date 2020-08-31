@@ -17,7 +17,7 @@
 #include "mod/mod.h"
 
 void main_event(void);
-uint8_t stan=1, xx=10,cnt,id=0;
+uint8_t stan=1, x=10,cnt,id=0;
 int8_t err;
 uint8_t mod_n;
 int16_t gadc;
@@ -65,7 +65,7 @@ int main(void){
 								if( !(mod_n & (1<<id)) ) id=0;
 							}
 						}
-						cnt=40;
+						cnt=200;
 					}else{
 						cnt=0;
 					}
@@ -100,9 +100,25 @@ void main_event(void){
 		gadc=get_mod_adci(0);
 		uart_puts("\n\rADC0=");
 		uart_putint(gadc,10);
+		if(gadc>0){
+			gadc=get_mod_adcimin(0);
+			uart_puts("\n\rADC0min=");
+			uart_putint(gadc,10);
+			gadc=get_mod_adcimax(0);
+			uart_puts("\n\rADC0max=");
+			uart_putint(gadc,10);
+		}
 		gadc=get_mod_adci(1);
 		uart_puts("\n\rADC1=");
 		uart_putint(gadc,10);
+		if(gadc>0){
+			gadc=get_mod_adcimin(1);
+			uart_puts("\n\rADC1min=");
+			uart_putint(gadc,10);
+			gadc=get_mod_adcimax(1);
+			uart_puts("\n\rADC1max=");
+			uart_putint(gadc,10);
+		}
 		uart_puts("\n\rget_mod_f=");
 		uart_putint(get_mod_f(),10);
 		uart_puts("\n\rerr=");

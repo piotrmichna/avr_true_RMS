@@ -14,6 +14,8 @@
 void mod_init(void);
 void mod_event(void);
 int16_t get_mod_adci(uint8_t xmod);
+int16_t get_mod_adcimin(uint8_t xmod);
+int16_t get_mod_adcimax(uint8_t xmod);
 
 int8_t mod_pwr_set(uint8_t st);
 int8_t mod_set_on(uint8_t xmod);
