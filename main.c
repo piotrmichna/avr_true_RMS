@@ -20,6 +20,7 @@ void main_event(void);
 uint8_t stan=1, xx=10,cnt,id=0;
 int8_t err;
 uint8_t mod_n;
+int16_t gadc;
 
 int main(void){
     //timer1 mode CTC
@@ -40,12 +41,11 @@ int main(void){
     while (1){
 		if(TIFR1 & (1<<OCF1A)){
 			TIFR1 |= (1<<OCF1A);
+			mod_event();
 			#if SPEED_ENABLE==1
-			spt_start();
 			if(!x){
 				x=10;
-				if(!cnt){
-					
+				if(!cnt){					
 					if(stan){
 						err=mod_set_on(id);
 					}else{
@@ -56,7 +56,7 @@ int main(void){
 							stan=0;
 						}else{
 							stan=1;
-							mod_n=get_mod_num();
+							mod_n=get_mod_install();
 							if(id){
 								id=0;
 								if( !(mod_n & (1<<id)) ) id=1;
@@ -75,7 +75,6 @@ int main(void){
 			}else{
 				x--;
 			}
-			spt_stop();
 			#endif
 			main_event();
 		}
@@ -93,18 +92,19 @@ void main_event(void){
 		n++;
 		uart_clear();
 		uart_puts("n=");
-		uart_putint(n,10);
-		
+		uart_putint(n,10);		
 #if SPEED_ENABLE==1
 		uart_puts("\n\rspt_tim=");
 		uart_putint(spt_get_tim(),10);		
 #endif
-		uart_puts("\n\rstan=");
-		uart_putint(stan,10);
-		uart_puts("\n\rpwr_on_f=");
-		uart_putint(get_mod_f(),2);
-		uart_puts("\n\rdet_on_f=");
-		uart_putint(get_det_stan(),10);		
+		gadc=get_mod_adci(0);
+		uart_puts("\n\rADC0=");
+		uart_putint(gadc,10);
+		gadc=get_mod_adci(1);
+		uart_puts("\n\rADC1=");
+		uart_putint(gadc,10);
+		uart_puts("\n\rget_mod_f=");
+		uart_putint(get_mod_f(),10);
 		uart_puts("\n\rerr=");
 		uart_putint(err,10);
 		//uart_puts(" sample=");
