@@ -14,11 +14,11 @@
 #include "speed_test.h"
 #include "uart/uart328pb.h"
 
-#include "mod/adc_m328pb.h"
+#include "mod/mod.h"
 
 void main_event(void);
-uint16_t val_adc[2];
-uint8_t id;
+uint8_t stan=1, xx=10,cnt;
+int8_t err;
 
 int main(void){
     //timer1 mode CTC
@@ -29,12 +29,11 @@ int main(void){
     OCR1A= 2880;						//przerwanie co 10ms
 	
 	USART_Init( __UBRR);
+	mod_init();
 	sei();
 	
 	uart_clear();
 	uart_puts("START\n\r");
-	DDRD |= (1<<PD5);
-	PORTD &= ~(1<<PD5);
 	uint8_t x=0;
 	
     while (1){
@@ -42,18 +41,22 @@ int main(void){
 			TIFR1 |= (1<<OCF1A);
 			#if SPEED_ENABLE==1
 			spt_start();
-			
-			if(x==0){
-				id=0;
-				adc_stop();
+			if(!x){
+				x=10;
+				if(!cnt){
+					err=mod_pwr_set(stan);
+					if(!err){
+						if(stan) stan=0; else stan=1;
+						cnt=40;
+					}else{
+						cnt=0;
+					}
+				}else{
+					cnt--;
+				}
+			}else{
+				x--;
 			}
-			if(x==9){
-				id=1;
-				adc_stop();
-			}
-			if(x==20) x=0; else x++;
-						
-			val_adc[id]=adc_get(id);
 			spt_stop();
 			#endif
 			main_event();
@@ -67,10 +70,8 @@ void main_event(void){
 	if(cnt){
 		cnt--;
 	}else{
-		cnt=99;
-		if(n%10==0){
-			PORTD ^= (1<<PD5);
-		}
+		cnt=49;
+
 		n++;
 		uart_clear();
 		uart_puts("n=");
@@ -80,13 +81,16 @@ void main_event(void){
 		uart_puts("\n\rspt_tim=");
 		uart_putint(spt_get_tim(),10);		
 #endif
-		uart_puts("\n\rid=");
-		uart_putint(id,10);
+		uart_puts("\n\rstan=");
+		uart_putint(stan,10);
+		uart_puts("\n\rpwr_on_f=");
+		uart_putint(get_pwr_stan(),10);
+		uart_puts("\n\rdet_on_f=");
+		uart_putint(get_det_stan(),10);		
+		uart_puts("\n\rerr=");
+		uart_putint(err,10);
 		//uart_puts(" sample=");
 		//uart_putint(adc_get_sample_num(),10);
-		uart_puts("\n\rADC0=");
-		uart_putint(val_adc[0],10);
-		uart_puts("\n\rADC1=");
-		uart_putint(val_adc[1],10);
+
 	}
 }
