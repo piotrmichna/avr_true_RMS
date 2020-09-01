@@ -37,8 +37,13 @@ int main(void){
 	uart_clear();
 	uart_puts("START\n\r");
 	uint8_t x=0;
-	
+	char c;
     while (1){
+		c=uart_getc();
+		while(c){
+			uart_putc(c);
+			c=uart_getc();
+		}
 		if(TIFR1 & (1<<OCF1A)){
 			TIFR1 |= (1<<OCF1A);
 			mod_event();
@@ -76,7 +81,7 @@ int main(void){
 				x--;
 			}
 			#endif
-			main_event();
+			//main_event();
 		}
     }
 }

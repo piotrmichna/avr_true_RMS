@@ -109,20 +109,23 @@ ISR( USART0_RX_vect ) {
 	uint8_t tmp_head;
 	char data;
 	static uint8_t flag=3;
-
+	
 	data = UDR0; //odczyt bufora sprzetowego
 	
 	if(flag){
-		if(data=='@') flag--;
-		if(flag<3){
+		if(flag==3){
+			if(data==64) flag--;
+		}else{
 			if(flag==2){
-				if(adr_arr[0]==data) flag--; else flag=3;
+				if(data==adr_arr[0]) flag--; else flag=3;
 			}else{
-				 if(adr_arr[1]==data) flag--; else flag=3;
+				if(flag==1){
+					if(data==adr_arr[1]) flag--; else flag=3;
+				}
 			}
 		}
 	}else{
-		if(data=='&'){
+		if(data==38){
 			flag=3;
 		}else{
 			tmp_head = ( UART_RxHead + 1) & UART_RX_BUF_MASK;	// inkremetacja licznika
