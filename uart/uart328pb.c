@@ -11,6 +11,7 @@
 #include <stdlib.h>
 
 #include "uart328pb.h"
+volatile char adr_arr[]={"ST"};
 
 volatile char UART_RxBuf[UART_RX_BUF_SIZE];		// definicja bufora odbiorczego
 volatile uint8_t UART_RxHead;					// indeks poczatkowy
@@ -107,14 +108,34 @@ ISR( USART0_TX_vect ) {
 ISR( USART0_RX_vect ) {
 	uint8_t tmp_head;
 	char data;
-
+	static uint8_t flag=3;
+	
 	data = UDR0; //odczyt bufora sprzetowego
-	tmp_head = ( UART_RxHead + 1) & UART_RX_BUF_MASK;	// inkremetacja licznika
-	if ( tmp_head == UART_RxTail ) {
-		// przepelnieie bufora
-		} else {
-		UART_RxHead = tmp_head; 		// zapis indeksu
-		UART_RxBuf[tmp_head] = data; 	// zapis do bufora odbiorczego
+	
+	if(flag){
+		if(flag==3){
+			if(data==64) flag--;
+		}else{
+			if(flag==2){
+				if(data==adr_arr[0]) flag--; else flag=3;
+			}else{
+				if(flag==1){
+					if(data==adr_arr[1]) flag--; else flag=3;
+				}
+			}
+		}
+	}else{
+		if(data==38){
+			flag=3;
+		}else{
+			tmp_head = ( UART_RxHead + 1) & UART_RX_BUF_MASK;	// inkremetacja licznika
+			if ( tmp_head == UART_RxTail ) {
+				// przepelnieie bufora
+			} else {
+				UART_RxHead = tmp_head; 		// zapis indeksu
+				UART_RxBuf[tmp_head] = data; 	// zapis do bufora odbiorczego
+			}
+		}
 	}
 }
 
